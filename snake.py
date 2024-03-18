@@ -14,6 +14,7 @@ class SnakePiece(Turtle):
         self.ahead: SnakePiece = None
 
     def move(self):
+        #TODO: handle edge
         self.goto(self.ahead.pos()) if self.ahead else self.forward(20)
 
     def set_ahead(self, piece):
@@ -24,6 +25,7 @@ class Snake:
     def __init__(self, segments=4):
         self.body = self.init_snake(segments)
         self.head = self.body[0]
+        self.tail = self.body[-1]
         self.speed = 0.05
 
     def init_snake(self, length) -> list[SnakePiece]:
@@ -34,6 +36,13 @@ class Snake:
             snake_body.append(piece)
 
         return snake_body
+
+    def extend(self):
+        piece = SnakePiece(len(self.body))
+        piece.set_ahead(self.body[-1])
+        piece.goto(self.tail.pos())
+        self.body.append(piece)
+        self.tail = piece
 
     def move(self):
         for piece in reversed(self.body):
