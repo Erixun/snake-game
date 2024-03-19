@@ -14,7 +14,7 @@ class SnakePiece(Turtle):
         self.ahead: SnakePiece = None
 
     def move(self):
-        #TODO: handle edge
+        # TODO: handle edge
         self.goto(self.ahead.pos()) if self.ahead else self.forward(20)
 
     def set_ahead(self, piece):
@@ -48,6 +48,15 @@ class Snake:
         for piece in reversed(self.body):
             piece.move()
             time.sleep(self.speed)
+
+    def collide(self, snake, wall):
+        return (
+            self.head.xcor() > wall.x
+            or self.head.xcor() < -wall.x
+            or self.head.ycor() > wall.y
+            or self.head.ycor() < -wall.y
+            or any(self.head.distance(segment) < 10 for segment in snake.body[1:])
+        )
 
     def up(self):
         if self.head.heading() != DOWN:

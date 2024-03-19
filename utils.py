@@ -1,3 +1,4 @@
+from collections import namedtuple
 from turtle import _Screen, Screen
 from snake import Snake
 
@@ -24,3 +25,11 @@ def init_screen(snake: Snake):
     bind_keys(screen, snake)
 
     return screen
+
+
+coords = namedtuple("Coords", ["x", "y"])
+
+
+def get_wall(screen: _Screen):
+    x, y = screen.window_width() / 2, screen.window_height() / 2
+    return coords(int(x - 10), int(y - 10))
